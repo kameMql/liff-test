@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>LIFF 予定入力</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+  <h1>予定を入力してください</h1>
+  <form id="form">
+    <label>名前:<br><input type="text" id="name" required></label><br><br>
+    <label>日時:<br><input type="datetime-local" id="datetime" required></label><br><br>
+    <label>予定:<br><textarea id="note" required></textarea></label><br><br>
+    <button type="submit">送信</button>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      liff.init({ liffId: 'YOUR_LIFF_ID' })
+        .then(() => {
+          if (!liff.isLoggedIn()) {
+            liff.login();
+          }
+        })
+        .catch(console.error);
+
+      document.getElementById('form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const datetime = document.getElementById('datetime').value;
+        const note = document.getElementById('note').value;
+
+        alert(`名前: ${name}\n日時: ${datetime}\n予定: ${note}`);
+        liff.closeWindow();
+      });
+    });
+  </script>
+</body>
+</html>
